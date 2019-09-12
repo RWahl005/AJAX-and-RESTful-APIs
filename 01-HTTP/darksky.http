@@ -1,1 +1,2 @@
+# If there is rain
 GET https://api.darksky.net/forecast/a465f4ec052a8289160841831b12d044/42.3601,-71.0589
