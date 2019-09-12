@@ -97,7 +97,7 @@ In this Exercise, we will learn how to open files from a web server. we will als
     }
     ```
 
-3.	Let’s give it a test by calling the new function from the getWeather() function. Just before the closing, add the following code:
+3.	Let’s give it a test by calling the new function from the `getWeather()` function. Just before the closing, add the following code:
     ```js
     if (!httpRequest) {
         httpRequest = getRequestObject();
@@ -123,7 +123,7 @@ Let’s give this a browser test for both syntax and to see if any errors are th
 # Step 2 - Opening and Sending a Request
 
 1.	
-    Open the **script.js** file in the IDE. We now need to target the server resource and send a request. We will add this code to the bottom of the getWeather() function. We will first abort() any outstanding requests, we will then construct our URL string in the open() method, and we will finally send() our request with no body: 
+    Open the **script.js** file in the IDE. We now need to target the server resource and send a request. We will add this code to the bottom of the `getWeather()` function. We will first `abort()` any outstanding requests, we will then construct our URL string in the `open()` method, and we will finally `send()` our request with no body: 
     ```js
     httpRequest.abort();
     httpRequest.open("get", "solar.php?" + "lat=" + latitude + 
@@ -133,11 +133,18 @@ Let’s give this a browser test for both syntax and to see if any errors are th
     Save and copy the modified file to your server domain.
  
 2.	
-    In the browser, turn on the Developer Tools and go to the Network tab. Load or refresh solar.html. One of the messages should be marked solar.php?... Look at the Headers tab and under General there should be a well-formed URL with the correct name-value pairs. Look at the Response Headers and you should see the proper Cache-Control and Connection pairs that were set in the solar.php file.
+    In the browser, turn on the Developer Tools and go to the Network tab. **Load or refresh solar.html.** One of the messages should be marked solar.php?... Look at the Headers tab and under General there should be a well-formed URL with the correct name-value pairs. Look at the Response Headers and you should see the proper Cache-Control and Connection pairs that were set in the solar.php file.
+    
+    <img width="1440" alt="Screen Shot 2019-09-12 at 8 38 17 AM" src="https://user-images.githubusercontent.com/52793815/64798931-5ecd9f00-d573-11e9-8268-04b47fedd9ff.png">
+
+
+    <img width="653" alt="Screen Shot 2019-09-12 at 8 34 46 AM" src="https://user-images.githubusercontent.com/52793815/64798806-23cb6b80-d573-11e9-93dd-59e099bf0713.png">
 
 3.	
     Switch to the Console tab. Type in httpRequest.responseText and press Enter. Chrome has good auto-complete for this. You should see a long string of data. This is your response from the web service. We will have to learn how to process that next.
- 
+    
+    <img width="689" alt="Screen Shot 2019-09-12 at 8 39 28 AM" src="https://user-images.githubusercontent.com/52793815/64799048-8c1a4d00-d573-11e9-9e68-3c3387615797.png">
+
 # Step 3 - Processing Response Data
    
 1.	Open the script.js file in the IDE. We now need to Process the response data. To do this we will build a new function directly below the `getWeather()` function: 
@@ -148,7 +155,7 @@ Let’s give this a browser test for both syntax and to see if any errors are th
       }
     ```
 
-2.	Now let’s build out the function, looking for a readyState of 4 indicating data is loaded and a status of 200, indicating request was successful. Both must be true to process the data. We will then convert the JSON data to a JavaScript object:
+2.	Now let’s build out the function, looking for a **readyState of 4** indicating data is loaded and a **status of 200**, indicating request was successful. **Both must be true to process the data**. We will then convert the JSON data to a JavaScript object:
 
     ```js
        if (httpRequest.readyState === 4 &&
@@ -158,7 +165,7 @@ Let’s give this a browser test for both syntax and to see if any errors are th
        
     ```
  
-3.	Next we have to set up the XMLHttpRequest event property to use the new function as its event handler. We will do this as the last command in the getWeather function:
+3.	Next we have to set up the XMLHttpRequest event property to use the new function as its event handler. We will do this as the last command in the `getWeather` function:
     
    ```js
     httpRequest.onreadystatechange = fillWeather;
@@ -169,7 +176,8 @@ Let’s move this over to the web server domain.
 4. 
    In the browser, turn on the Developer Tools and go to the Console tab. 
    Load or refresh solar.html. Type in weatherReport and press Enter. The object sitting in that variable is displayed. Expand the triangle next to it. This will display the contents of the object, name-value pairs. Expand each of the properties and you can clearly see the weather data.
- 
+
+   <img width="742" alt="Screen Shot 2019-09-12 at 8 48 33 AM" src="https://user-images.githubusercontent.com/52793815/64799698-cc2dff80-d574-11e9-9a97-3f9f291260e8.png">
 
 
 # Step 4 - Adding Response Data to the Page
