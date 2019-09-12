@@ -11,11 +11,11 @@
 - [Step 4 - Adding Response Data to the Page](#step-4---adding-response-data-to-the-page)
 
 ## Checklist
-- [ ] Read the Instructions
-- [ ] Step 1 - Docker-Compose is running
-- [ ] Step 2 - Chrome Network Tools
-- [ ] Step 3 - Examining PHP Proxy and Getting API Key
-- [ ] Step 4 - Instantiating an XMLHttpRequest Object
+- [x] Read the Instructions
+- [x] Step 1 - Docker-Compose is running
+- [x] Step 2 - Chrome Network Tools
+- [x] Step 3 - Examining PHP Proxy and Getting API Key
+- [x] Step 4 - Instantiating an XMLHttpRequest Object
 - [ ] Step 5 - Opening and Sending a Request
 - [ ] Step 6 - Processing Response Data
 - [ ] Step 7 - Adding Response Data to the Page
