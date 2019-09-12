@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "git": "git status && git add -A && git commit -m \"changed these files\" && git push"
+    "git": "git status && git add -A && git commit -m \"changed these files\" && git push",
+    "exercise": "cd 02-AJAX/Exercise-LAMP/ && docker-compose up",
+    "project": "cd /Projects/Project_Lab/ && docker-compose up",
+    "stop": "docker stop $(docker ps -aq)"
   },
   "repository": {
     "type": "git",
