@@ -1,5 +1,2 @@
-# Get my data.
 GET https://api.github.com/users/vakanbi971
 content-type: application/json
-
-GET https://api.github.com/users/RWahl005
