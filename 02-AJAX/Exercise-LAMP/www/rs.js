@@ -1,10 +1,10 @@
 /*  Exercise 01_11_01
 
     Whole Spectrum Energy Solutions
-    Author: 
-    Date:   
+    Author: Ryan W
+    Date:   9.13.19
 
-    Filename: script.js
+    Filename: rs.js
 */
 
 "use strict";
@@ -105,6 +105,7 @@ function fillWeather(){
         secondCell.style.fontSize = "2.5em";
         thirdCell.innerHTML = sun + "%";
       }
+      document.querySelector("section.week p.credit").style.display = "block";
    }
 }
 
