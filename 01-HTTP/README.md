@@ -10,6 +10,7 @@ This exercise requires the VSCODE Extention [Rest-Client](https://marketplace.vi
 2. [Github](https://developer.github.com/v3/)
 3. [Star Wars API](https://swapi.co/)
 4. [i can haz dad joke](https://icanhazdadjoke.com/api)
+5. [json placeholder](https://jsonplaceholder.typicode.com/guide.html)
 
 
 # Resources
