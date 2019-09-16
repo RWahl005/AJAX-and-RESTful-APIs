@@ -19,7 +19,8 @@ function getRequestObject(){
    try{
       httpRequest = new XMLHttpRequest();
    }catch(error){
-      document.querySelector("p.error").innerHTML = "Error: You have an old browser.";
+      document.querySelector("p.error").innerHTML = "Error: Forecast is not supported by your browser.";
+      document.queryCommandEnabled("p.error").style.display = "block";
       return false;
    }
    return httpRequest;
