@@ -259,7 +259,7 @@ In a server test, it appears that our readyState climbs directly through the pro
 Also says supports JSON and there is no mention of an API key. So far, so good.
 
 7.	Let’s click on the Stocks option and see what is available. First thing it tells us is to “use the /ref-data/symbols endpoint to find the symbols that we support” which sounds pretty simple. Let’s go into StockCheck.php and copy lines 4 & 5 to make some changes and just test this API as follows:
-```js
+```php
 //header("Content-Type: text/csv");
 //$Quote = "http://quote.yahoo.com/d/quotes.csv?s=$TickerSymbol&f=
     sl1d1t1c1p2ohgv";
@@ -270,16 +270,20 @@ $Quote = "https://api.iextrading.com/1.0/ref-data/symbols";
 Give this a server test and we have some clean JSON with stock symbols.
 
 8.	Let’s do some further experimentation in Stocks and see what kind of data we can get that meets the needs of our Website. Scroll down past Batch Requests and we see some options under Book. It further tells us that we can get responses from quote and give it a stock symbol. Let’s check it out by clicking on it. The explanation and JSON look like just what we need. Change the StockCheck.php endpoint as follows:
-$Quote = 
-    "https://api.iextrading.com/1.0/stock/$TickerSymbol/quote";
+```php
+$Quote = "https://api.iextrading.com/1.0/stock/$TickerSymbol/quote";
+```
 Let’s give that a server test. It appears that we get a status 404.If we look at the request, we see a weird looking symbol. Seems to indicate our symbol is not found.
 9.	The symbol ^IXIC is bogus; it is for Yahoo, indicating we don’t want an individual stock, we want the whole market. Not supported by IEX. Let’s make a change to Microsoft in our global variables in script.js:
+```js
 /* global variables */
 var httpRequest = false;
 var entry = "MSFT";
+```
 This appears to work based on or Console data. So we go to the boss, and tell him about Yahoo. Tell him not to worry, we now have much more data. We show him and say we are going to improve the Website, and of course charge some more.
  
 10.	For starters, let’s get our starting stock into the search box. Go to the getQuote() function, and let’s add an else statement to originally populate the control:
+```js
 function getQuote() {
     if (document.getElementsByTagName("input")[0].value) {
         entry = document.getElementsByTagName("input")[0].value;
@@ -287,35 +291,37 @@ function getQuote() {
     else {
         document.getElementsByTagName("input")[0].value = entry;
     }
+}
+```
 Go to displayData() and let’s remove our readyState and status debug and give this a test. The search box should populate.
 11.	We can see that our response is a string representation of JSON. Let’s convert that to JavaScript JSON so we can use it. We change the array.split() function to a JSON.parse(). We will also remove the for loop that formats an array, we don’t need it anymore. Lastly, let’s console.log() our converted string:
+```js
         var stockResults = httpRequest.responseText;
         console.log(stockResults);
         var stockItems = JSON.parse(stockResults);
         console.log(stockItems.symbol);
         document.getElementById("ticker").innerHTML = stockItems[0];
+```
 Now we have clean JavaScript JSON to work with.
 12.	Let’s populate our first data field for a test as follows:
-        console.log(stockItems.symbol);
-        document.getElementById("ticker").innerHTML = stockItems.symbol;
+```js
+    console.log(stockItems.symbol);
+    document.getElementById("ticker").innerHTML = stockItems.symbol;
+```
 Give it a test and it is working well.
  
 14.	Let’s get the rest of the data as follows:
-        document.getElementById("ticker").innerHTML = stockItems.symbol;
-        document.getElementById("openingPrice").innerHTML = 
-            stockItems.open;
-        document.getElementById("lastTrade").innerHTML = 
-            stockItems.latestPrice;
-        var date = new Date(stockItems.latestUpdate);
-        document.getElementById("lastTradeDT").innerHTML = 
-            date.toDateString() + "<br>" + date.toLocaleTimeString();
-        document.getElementById("change").innerHTML = 
-            (stockItems.latestPrice - stockItems.open).toFixed(2);
-        document.getElementById("range").innerHTML = "Low  " + 
-            (stockItems.low * 1).toFixed(2) + "<br>High " + 
-            (stockItems.high * 1).toFixed(2);
-        document.getElementById("volume").innerHTML = 
-            (stockItems.latestVolume * 1).toLocaleString();
+```js
+    document.getElementById("ticker").innerHTML = stockItems.symbol;
+    document.getElementById("openingPrice").innerHTML = stockItems.open;
+    document.getElementById("lastTrade").innerHTML = stockItems.latestPrice;
+    var date = new Date(stockItems.latestUpdate);
+    document.getElementById("lastTradeDT").innerHTML = 
+        date.toDateString() + "<br>" + date.toLocaleTimeString();
+    document.getElementById("change").innerHTML = (stockItems.latestPrice - stockItems.open).toFixed(2);
+    document.getElementById("range").innerHTML = "Low  " + (stockItems.low * 1).toFixed(2) + "<br>High " + (stockItems.high * 1).toFixed(2);
+    document.getElementById("volume").innerHTML = (stockItems.latestVolume * 1).toLocaleString();
+```
 Give this a test. When it works, remove the debug.
 15.	Lastly, let’s cite IEX as required in their Terms of Use. Add the following to stocks.html:
 

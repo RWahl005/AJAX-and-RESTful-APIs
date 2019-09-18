@@ -14,7 +14,7 @@
                         LAMP STACK
                     </h1>
                     <h2 class="subtitle">
-                        Your local development environment
+                        OUR local development environment
                     </h2>
                 </div>
             </div>
@@ -47,13 +47,15 @@
                         </div>
                     </div>
                     <div class="column">
-                        <h3 class="title is-3 has-text-centered">Quick Links</h3>
+                        <h3 class="title is-3 has-text-centered">Projects</h3>
                         <hr>
                         <div class="content">
                             <ul>
-                                <li><a href="http://localhost:8000/phpinfo.php">phpinfo()</a></li>
+                                <li><a href="Project01/stocks.html">Project 01</a></li>
+                                <li><a href="Project02/address.html">Project 02</a></li>
+                                <!-- <li><a href="http://localhost:8000/phpinfo.php">phpinfo()</a></li>
                                 <li><a href="http://localhost:8080">phpMyAdmin</a></li>
-                                <li><a href="http://localhost:8000/test_db.php">Test DB Connection</a></li>
+                                <li><a href="http://localhost:8000/test_db.php">Test DB Connection</a></li> -->
                             </ul>
                         </div>
                     </div>
