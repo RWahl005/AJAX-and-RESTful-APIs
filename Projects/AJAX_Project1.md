@@ -218,7 +218,7 @@ As you have seen the Stock quote program that we built is not working correctly.
    
 
 1.	Copy all of the completed files from Project 01_11_02 into a Project 01_11_03 folder; this will contain all of the files you will zip up and submit. Open the stocks.html file and change the <h1> content as follows:
-```js
+```html
    <header>
       <h1>
          Project 01_11_03
@@ -246,43 +246,32 @@ function displayData() {
     console.log("httpRequest.readyState: " + httpRequest.readyState);
     console.log("httpRequest.status: " + httpRequest.status);
 ```
-In a server test, it appears that our readyState climbs directly through the proper values and gives us successful status. But we get a garbage response.
+In a server test, it appears that our readyState climbs directly through the proper values and gives us successful status. But we get a blank response.
 
-4.	Has something changed with Yahoo Finance? That would certainly not be unusual. Google “yahoo finance quotes api” to see what we can find. Sure enough, in the results we find a “Bye Yahoo, and thanks for all the fish – The Financial Hacker” category. Click on that and let’s see what we see. Wow “aargh!” and welcome to the life of a coder. The API has disappeared.
-
-5.	Let’s see if we can find another API to use for stock quotes. Google “yahoo finance quotes api replace” to see what we can find. In the results we find a “Replacing Yahoo Finance with the IEX API and Alpha Vantage” category. Click on that and we get a couple of choices. Click on the “Alpha Vantage API” link and let’s look it over. Ok, free, JSON format, needs an API key. Let’s look at the documentation. Looks good, but lots of API categories, and the endpoints look a little complex, but a definite possibility.
-
-6.	Let’s look at the other one. Click on the “IEX” link and let’s look it over. Simple menu on the left, so we click on endpoints. Says that all endpoints are prefixed with:
-
-`https://api.iextrading.com/1.0`
-
-Also says supports JSON and there is no mention of an API key. So far, so good.
-
-7.	Let’s click on the Stocks option and see what is available. First thing it tells us is to “use the /ref-data/symbols endpoint to find the symbols that we support” which sounds pretty simple. Let’s go into StockCheck.php and copy lines 4 & 5 to make some changes and just test this API as follows:
+## Step 3
+1. The new api we will use is called Quandl. `https://www.quandl.com`.
+2. Open the StockCheck.php file.
+3. Remove everything from inside the file and replace it with the code below. (Since we have not learned php yet you don't need to understand what is going on in the php file.)
 ```php
-//header("Content-Type: text/csv");
-//$Quote = "http://quote.yahoo.com/d/quotes.csv?s=$TickerSymbol&f=
-    sl1d1t1c1p2ohgv";
-header("Content-Type: application/json");
-$Quote = "https://api.iextrading.com/1.0/ref-data/symbols";
+<?php
+$TickerSymbol = $_GET["t"];
+// handles the data for date one and two.
+$DateOne = $_GET["s"];
+$DateTwo = $_GET["e"];
+header("Cache-Control: no-cache");
+header("Content-Type: text/csv");
+//Get the data from quandl
+$Quote = "https://www.quandl.com/api/v3/datasets/WIKI/$TickerSymbol.json?end_date=$DateTwo&start_date=$DateOne";
+$QuoteString = file_get_contents($Quote);
+echo $QuoteString;
+?>
 ```
-
-Give this a server test and we have some clean JSON with stock symbols.
-
-8.	Let’s do some further experimentation in Stocks and see what kind of data we can get that meets the needs of our Website. Scroll down past Batch Requests and we see some options under Book. It further tells us that we can get responses from quote and give it a stock symbol. Let’s check it out by clicking on it. The explanation and JSON look like just what we need. Change the StockCheck.php endpoint as follows:
-```php
-$Quote = "https://api.iextrading.com/1.0/stock/$TickerSymbol/quote";
-```
-Let’s give that a server test. It appears that we get a status 404.If we look at the request, we see a weird looking symbol. Seems to indicate our symbol is not found.
-9.	The symbol ^IXIC is bogus; it is for Yahoo, indicating we don’t want an individual stock, we want the whole market. Not supported by IEX. Let’s make a change to Microsoft in our global variables in script.js:
+4. Now return back to the script.js
+5. Where the global variables are change the entry from IXIC to MSFT (MSFT is the stock ticker symbol for Microsoft).
 ```js
-/* global variables */
-var httpRequest = false;
 var entry = "MSFT";
 ```
-This appears to work based on or Console data. So we go to the boss, and tell him about Yahoo. Tell him not to worry, we now have much more data. We show him and say we are going to improve the Website, and of course charge some more.
- 
-10.	For starters, let’s get our starting stock into the search box. Go to the getQuote() function, and let’s add an else statement to originally populate the control:
+6.	For starters, let’s get our starting stock into the search box. Go to the getQuote() function, and let’s add an else statement to originally populate the control:
 ```js
 function getQuote() {
     if (document.getElementsByTagName("input")[0].value) {
@@ -293,24 +282,33 @@ function getQuote() {
     }
 }
 ```
-Go to displayData() and let’s remove our readyState and status debug and give this a test. The search box should populate.
-11.	We can see that our response is a string representation of JSON. Let’s convert that to JavaScript JSON so we can use it. We change the array.split() function to a JSON.parse(). We will also remove the for loop that formats an array, we don’t need it anymore. Lastly, let’s console.log() our converted string:
+7. Go to `displayData()` and let’s remove our readyState and status debug and give this a test. The search box should populate.
+   
+8.	The response is in a string. We must convert that string to JSON in order to use.
 ```js
         var stockResults = httpRequest.responseText;
-        console.log(stockResults);
         var stockItems = JSON.parse(stockResults);
-        console.log(stockItems.symbol);
-        document.getElementById("ticker").innerHTML = stockItems[0];
 ```
-Now we have clean JavaScript JSON to work with.
-12.	Let’s populate our first data field for a test as follows:
+9. If a stock does not exist than an error will occur. To fix this we need to add a try and catch statement for `var stockItems`
 ```js
-    console.log(stockItems.symbol);
-    document.getElementById("ticker").innerHTML = stockItems.symbol;
+var stockItems;
+        try{
+            stockItems = JSON.parse(stockResults);
+        }
+        catch(error){
+            document.getElementById("ticker").innerHTML = "Error: Invalid Ticker.";
+            document.getElementById("openingPrice").innerHTML = "-";
+            document.getElementById("lastTrade").innerHTML = "-";
+            document.getElementById("lastTradeDT").innerHTML = "-";
+            document.getElementById("change").innerHTML = "-";
+            document.getElementById("range").innerHTML = "-";
+            document.getElementById("volume").innerHTML = "-";
+            return;
+        }
 ```
-Give it a test and it is working well.
- 
-14.	Let’s get the rest of the data as follows:
+The above code sets  
+  
+12.	Now that we have the JSON lets fill out the data.
 ```js
     document.getElementById("ticker").innerHTML = stockItems.symbol;
     document.getElementById("openingPrice").innerHTML = stockItems.open;
