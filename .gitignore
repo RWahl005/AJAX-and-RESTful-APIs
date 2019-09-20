@@ -21,6 +21,7 @@ Icon
 # Docker Stuff
 composer.phar
 /vendor/
+*/Project_Lab/data/
 */Exercise-LAMP/data/
 */Exercise-LAMP/ssl/
 

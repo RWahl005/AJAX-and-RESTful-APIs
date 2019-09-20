@@ -105,16 +105,24 @@ function getMonth(month){
     return curMonth < 10 ? curMonth = "0" + curMonth : curMonth;
 }
 
+function formatTable() {
+    var rows = document.getElementsByTagName("tr");
+    for (var i = 0; i < rows.length; i++) {
+        rows[i].style.background = "#9FE098";
+    }
+}
+
 /*
  * Bottom load code 
  */
 var form = document.getElementsByTagName("form")[0];
-if(form.addEventListener){
+if (form.addEventListener) {
     form.addEventListener("submit", stopSubmission, false);
+    window.addEventListener("load", formatTable, false);
     window.addEventListener("load", getQuote, false);
-}
-// if they are using Internet Explorer.
-else if(form.attachEvent){
+} 
+else if (form.attachEvent) {
     form.attachEvent("onsubmit", stopSubmission);
+    window.attachEvent("onload", formatTable);
     window.attachEvent("onload", getQuote);
 }
